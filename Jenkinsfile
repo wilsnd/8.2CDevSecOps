@@ -42,12 +42,10 @@ pipeline {
                     powershell -command "Expand-Archive -Path sonar-scanner.zip -DestinationPath . -Force"
                 '''
                 
-                // Run SonarScanner using properties file with credentials
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    bat '''
-                        sonar-scanner-4.6.2.2472-windows\\bin\\sonar-scanner.bat -Dsonar.login=%SONAR_TOKEN%
-                    '''
-                }
+                // Run SonarScanner using properties file
+                bat '''
+                    sonar-scanner-4.6.2.2472-windows\\bin\\sonar-scanner.bat -Dsonar.login=%SONAR_TOKEN%
+                '''
             }
         }
     }
