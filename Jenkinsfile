@@ -47,9 +47,11 @@ pipeline {
                 '''
                 
                 // Run SonarScanner using properties file
-                bat '''
-                    sonar-scanner-4.6.2.2472-windows\\bin\\sonar-scanner.bat -Dsonar.login=%SONAR_TOKEN%
-                '''
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    bat '''
+                        sonar-scanner-4.6.2.2472-windows\\bin\\sonar-scanner.bat -Dsonar.login=%SONAR_TOKEN%
+                    '''
+                }
             }
         }
     }
