@@ -32,5 +32,21 @@ pipeline {
                 bat 'npm audit || exit 0' // This will show known CVEs in the output
             }
         }
+
+        // SonarQube
+        stage('SonarCloud Analysis') {
+            steps {
+                // Download SonarScanner
+                bat '''
+                    curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-windows.zip
+                    powershell -command "Expand-Archive -Path sonar-scanner.zip -DestinationPath . -Force"
+                '''
+                
+                // Run SonarScanner using properties file
+                bat '''
+                    sonar-scanner-4.8.0.2856-windows\\bin\\sonar-scanner.bat -Dsonar.login=%SONAR_TOKEN%
+                '''
+            }
+        }
     }
 }
