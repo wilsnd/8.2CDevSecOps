@@ -4,6 +4,10 @@ pipeline {
     tools {
         nodejs "NodeJS"  // Import the tools
     }
+
+    environment {
+        SONAR_TOKEN = credentials('SONAR_TOKEN')  // Use the credential ID 
+    }
     
     stages {
         stage('Checkout') {
