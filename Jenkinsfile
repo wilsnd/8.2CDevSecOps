@@ -1,8 +1,8 @@
 pipeline {
     agent any
-
+    
     tools {
-        nodejs "NodeJS" 
+        nodejs "NodeJS"
     }
     
     stages {
@@ -24,11 +24,9 @@ pipeline {
             }
             post {
                 always {
-                    // Create a simulated email with test results
                     bat 'echo Test Email Notification > test-email.txt'
-                    bat 'npm audit >> test-email.txt'
+                    bat 'npm audit > test-email.txt || exit 0'
                     
-                    // Try standard emailext as fallback
                     emailext attachLog: true,
                         body: "Test completed",
                         subject: "Test Stage",
@@ -49,11 +47,9 @@ pipeline {
             }
             post {
                 always {
-                    // Create a simulated email with security results
                     bat 'echo Security Email Notification > security-email.txt'
-                    bat 'type security-audit.txt >> security-email.txt'
-                    
-                    // Try standard emailext as fallback
+                    bat 'type security-audit.txt >> security-email.txt || exit 0'
+
                     emailext attachLog: true,
                         attachmentsPattern: 'security-audit.txt',
                         body: "Security scan completed",
